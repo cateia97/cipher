@@ -3,8 +3,23 @@ class Cipher
 
   def self.vigenere(keyword, text)
     deciphered_keyword = caesar_guess(keyword)
+    keys = deciphered_keyword.each_char.map { |char| ALPHABET.index(char) }
+    iterator = 0
 
-    solution
+    text.chars.map { |char|
+
+      if ALPHABET.include?(char)
+        if iterator == keys.length
+          iterator = 0
+        end
+
+        key = ALPHABET.rotate(keys[iterator].to_i)
+        iterator += 1
+        ALPHABET[key.index(char)]
+      else
+        char
+      end
+    }.join
   end
 
   # Solve a Caesar cipher with a given offset
